@@ -4,15 +4,19 @@
   "description": "A weather API",
   "main": "apps.js",
   "scripts": {
-    "start": "node apps.js",
+    "start": "node app.js",
     "test": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
-    "nodemon": "^3.1.9",
+    "ioredis": "^5.6.0",
     "weather-js": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
