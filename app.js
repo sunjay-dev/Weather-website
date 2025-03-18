@@ -7,7 +7,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.resolve("./views"));
 
 const weatherRoutes = require('./router/weather.router.js');
+const userRoutes = require('./router/user.router.js');
 app.use('/', weatherRoutes);
+app.use('/user', userRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
