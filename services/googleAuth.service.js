@@ -21,6 +21,7 @@ passport.use(
                 username: profile.displayName,
                 email,
                 profilePicture: profile.photos?.[0]?.value,
+                city: "Hyderabad, Pakistan"
             });
           } 
 

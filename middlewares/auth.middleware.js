@@ -19,7 +19,6 @@ async function restrictToLoginedUser(req, res, next) {
     const user = getUser(token);
     if (!user)
     return next();
-
     return res.redirect('/');
 }
 
