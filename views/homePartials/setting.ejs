@@ -1,0 +1,52 @@
+<div class="bg-gray-600 bg-opacity-20 w-[350px] max-w-[350px] text-white p-6 hidden border-white/10 shadow-lg rounded-2xl" id="setting">
+    <!-- Profile Section -->
+    <div class="flex items-center gap-4 border-b border-gray-700 pb-4">
+        <img id="userImg" alt="Profile" class="w-16 h-16 rounded-full">
+        <p class="text-lg font-semibold" id="userName"></p>
+    </div>
+
+    <!-- Email Row -->
+    <div class="border-b border-gray-700 py-4">
+        <p class="text-sm">Email</p>
+        <p id="userEmail"></p>
+    </div>
+
+    <!-- Email Preferences -->
+    <div class="flex justify-between items-center border-b border-gray-700 py-4">
+        <div>
+            <p class="">Email Preferences</p>
+            <p class="text-sm">Receive email notifications</p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" class="sr-only peer" id="emailToggle">
+            <div class="w-11 h-6 bg-gray-600 peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:bg-blue-500 
+                        after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border after:rounded-full 
+                        after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-[calc(100%+2px)]">
+            </div>
+        </label>
+        
+    </div>
+
+    <!-- Default Location -->
+    <div class="border-b border-gray-700 py-4">
+        <p class="">Default Location</p>
+        <div id="locationDisplay" class="flex justify-between items-center">
+            <p id="locationText"></p>
+            <button id="editLocationBtn" class="text-sm hover:underline">Edit</button>
+        </div>
+        <div id="locationEdit" class="hidden mt-2">
+            <input type="text" id="defaultLocation" placeholder="Enter city name" 
+                class="w-full bg-white text-gray-700  p-2 rounded-lg outline-none border border-gray-600 focus:ring-2 ">
+            <button id="saveLocationBtn" class="mt-2 w-full text-gray-700 bg-white  py-2 rounded-lg text-center ">
+                Save
+            </button>
+        </div>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="pt-6">
+        <a href="/user/logout" class="block w-full bg-red-600 py-2 rounded-lg text-center hover:bg-red-700">
+            Logout
+        </a>
+    </div>
+</div>

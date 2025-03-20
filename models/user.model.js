@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
         sparse: true,
         unique: true
     },
+    emailPrefrence: {
+        type: Boolean, 
+        default: true
+    },
     profilePicture: {
         type: String
     },

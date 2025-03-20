@@ -8,14 +8,17 @@ module.exports.fetchWeather = async (req, res, next) => {
 
     try {
         const user = await userModel.findById(id);
-        const city = "Karachi,Sindh";
+        const city = "Tando ghulam ali, sindh";
         console.log(city);
         
         const cityKey = `weather:${city.toLowerCase().trim()}`;
         const cachedData = await redis.get(cityKey);
 
         if (cachedData)
-            return res.status(200).json(JSON.parse(cachedData));
+            return res.status(200).json({
+        weather: JSON.parse(cachedData),
+        user
+     });
 
         const weatherData = await get_report(city);
 
@@ -24,7 +27,10 @@ module.exports.fetchWeather = async (req, res, next) => {
         }
 
         await redis.set(cityKey, JSON.stringify(weatherData[0]), "EX", 7200);
-        return res.json(weatherData[0]);
+        return res.json({
+            weather: weatherData[0] ,
+            user
+        });
 
     } catch (error) {
         res.status(500).json({

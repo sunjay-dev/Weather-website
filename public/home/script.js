@@ -1,9 +1,10 @@
 const forcast = document.getElementById('forcast');
 const weather_card = document.getElementById('weather-card');
 const dateTimeDiv = document.getElementById('dateTimeDiv');
+const time_date_parent = document.getElementById('time-date-parent');
+const setting = document.getElementById('setting');
 
-
-function we() {
+document.addEventListener("DOMContentLoaded",()=>{
     fetch(`/api/weather/`)
         .then(response => {
             if (!response.ok) {
@@ -13,23 +14,24 @@ function we() {
         })
         .then(data => {
             console.log(data);
-            updateDateTime(data);
-            updateForecast(data.forecast);
-            updateCurrentWeather(data);
+            updateDateTime(data.weather);
+            updateForecast(data.weather.forecast);
+            updateCurrentWeather(data.weather);
+            updateUserInfo(data.user);
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
-}
-we();
+});
+
 
 function updateDateTime(data){
-    const dateAndMonth = new Date(data.current.date).toDateString().split(' ');
     document.body.style.backgroundImage = `url('/home/${data.forecast[0].skytextday}.jpg')`;
+    const dateAndMonth = new Date(data.current.date).toDateString().split(' ');
     dateTimeDiv.innerHTML = `
     <div class="text-center mb-10">
         <h1 class="text-6xl font-bold" id="time">09:45</h1>
-        <p class="mb-4 mt-1 text-gray-200 text-lg">${data.current.day} | ${dateAndMonth[1]} ${dateAndMonth[2]} </p>
+        <p class="mb-4 mt-1 text-gray-300 text-lg">${data.current.day} | ${dateAndMonth[1]} ${dateAndMonth[2]} </p>
     </div> 
     `;
 }
@@ -64,7 +66,14 @@ function updateCurrentWeather(data){
         </div>
     `;
 }
+function updateUserInfo(data){
 
+    document.getElementById("userImg").src = data.profilePicture;     
+    document.getElementById("userName").innerHTML = data.username;  
+    document.getElementById("userEmail").innerHTML = data.email;    
+    document.getElementById("locationText").innerHTML = data.city;
+    document.getElementById("emailToggle").checked = data.emailPrefrence;  
+}
 function adjustMargin() {
     const timeDateParent = document.getElementById("time-date-parent");
     const weatherCard = document.getElementById("weather-card");
@@ -82,7 +91,32 @@ function adjustMargin() {
         timeDateParent.style.marginTop = `${Math.max(availableSpace / 2, 14)}px`;
     });
 }
-
-// Adjust on load and resize
 window.addEventListener("load", adjustMargin);
 window.addEventListener("resize", adjustMargin);
+
+
+document.getElementById('setting_footer').addEventListener("click", ()=>{
+    time_date_parent.classList.add("hidden");
+    setting.classList.remove("hidden");
+    
+})
+
+document.getElementById('weather_footer').addEventListener("click", ()=>{
+    time_date_parent.classList.remove("hidden");
+    setting.classList.add("hidden");
+    
+})
+
+document.getElementById("editLocationBtn").addEventListener("click", function () {
+    document.getElementById("locationDisplay").classList.add("hidden");
+    document.getElementById("locationEdit").classList.remove("hidden");
+});
+
+document.getElementById("saveLocationBtn").addEventListener("click", function () {
+    let newLocation = document.getElementById("defaultLocation").value;
+    if (newLocation.trim() !== "") {
+        document.getElementById("locationText").textContent = newLocation;
+    }
+    document.getElementById("locationDisplay").classList.remove("hidden");
+    document.getElementById("locationEdit").classList.add("hidden");
+});
