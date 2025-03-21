@@ -4,14 +4,14 @@ const redis = require('../config/redis.config.js');
 module.exports.fetchWeatherByCity = async (req, res, next) => {
 
     try {
-        const city = req.params.city;
+        const {city} = req.query;
         console.log(city);
 
         const cityKey = `weather:${city.toLowerCase().trim()}`;
         const cachedData = await redis.get(cityKey);
 
         if (cachedData)
-            return res.status(200).json(JSON.parse(cachedData));
+        return res.status(200).json(JSON.parse(cachedData));
 
         const weatherData = await get_report(null,null,city);
 
@@ -19,8 +19,8 @@ module.exports.fetchWeatherByCity = async (req, res, next) => {
             return res.status(404).json({ message: "Weather data not found" });
         }
 
-        await redis.set(cityKey, JSON.stringify(weatherData[0]), "EX", 7200);
-        return res.json(weatherData[0]);
+        await redis.set(cityKey, JSON.stringify(weatherData), "EX", 7200);
+        return res.json(weatherData);
 
     } catch (error) {
         res.status(500).json({

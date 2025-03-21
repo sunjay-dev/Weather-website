@@ -2,21 +2,17 @@ const forcast = document.getElementById('forcast');
 const Day_forcast = document.getElementById('Day_forcast');
 const weather_card = document.getElementById('weather-card');
 const dateTimeDiv = document.getElementById('dateTimeDiv');
-const time_date_parent = document.getElementById('time-date-parent');
-const alertDiv = document.getElementById('alert');
-let chooseLocationDiv = document.getElementById("chooseLocationDiv");
-let currentDateTime;
+
 document.addEventListener("DOMContentLoaded", function () {
-
     let location = localStorage.getItem("userLocation");
+    let city = localStorage.getItem("city");
 
-    if (!location) {
-        time_date_parent.classList.add("hidden");
-        chooseLocationDiv.classList.remove("hidden");
-
-    } else {
-        fetchWeatherUsingLatLong(location);
-    }
+    if(!city && !location)
+    window.location.href = '/';   
+    else if(city)
+    fetchWeatherUsingCityName(city)
+    else 
+    fetchWeatherUsingLatLong(location);
 });
 
 function fetchWeatherUsingLatLong(location) {
@@ -32,12 +28,13 @@ function fetchWeatherUsingLatLong(location) {
             updateCurrentWeather(data);
             updateHourForecast(data);
             updateDayForecast(data);
+            saveCity(`${data.location.name}, ${data.location.region}`, data.location.lat, data.location.lon);
         })
         .catch(error => console.error("Weather fetch error:", error));
 }
 
-function fetchWeatherUsingCityName() {
-    fetch(`/weather/`)
+function fetchWeatherUsingCityName(city) {
+    fetch(`/weather/?city=${city}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
@@ -46,9 +43,13 @@ function fetchWeatherUsingCityName() {
         })
         .then(data => {
             console.log(data);
+            document.body.style.backgroundImage = `url('/home/bg/${data.current.is_day ? "day" : "night"}.jpg')`;
+            
             updateDateTime(data);
-            updateForecast(data.forecast);
             updateCurrentWeather(data);
+            updateHourForecast(data);
+            updateDayForecast(data);
+            saveCity(`${data.location.name}, ${data.location.region}`, data.location.lat, data.location.lon);
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
@@ -102,7 +103,7 @@ function updateHourForecast(data) {
         hour: '2-digit',
         hourCycle: 'h23'
     }).format(now)) +1;
-    console.log(currentHour);
+
     let hourlyData = [];
 
     if ((24 - currentHour) >= 4) {
@@ -112,12 +113,10 @@ function updateHourForecast(data) {
         const tomorrowHours = data.forecast.forecastday[1].hour.slice(0, 4-todayHours.length);
         hourlyData = [...todayHours, ...tomorrowHours]
     }
-    
 
     forcast.innerHTML = "";
 
     hourlyData.forEach(hour => {
-        console.log(hour)
         forcast.innerHTML += `
         <div class="text-center">
             <p class="text-sm">${hour.time.split(' ')[1]}</p>
@@ -128,10 +127,7 @@ function updateHourForecast(data) {
     });
 }
 
-
 function updateCurrentWeather(data) {
-    const isDay = data.current.is_day === 1;
-
     weather_card.innerHTML = `
     <div class="flex items-center justify-between">
             <p class="text-lg">${data.location.name}, ${data.location.region}</p>
@@ -144,7 +140,7 @@ function updateCurrentWeather(data) {
                 <p class="text-xs text-gray-200">Chance of Rain: ${data.forecast.forecastday[0].day.daily_chance_of_rain}%</p>
                 <p class="text-xs text-gray-200">Humidity: ${data.current.humidity}%</p>
             </div>
-            <img src="/home/${getIconPath(data.current.condition.code, isDay)}" id="currentWeatherImg" alt="Weather" class="w-28 h-28">
+            <img src="/home/${getIconPath(data.current.condition.code, data.current.is_day)}" id="currentWeatherImg" alt="Weather" class="w-28 h-28">
         </div>
     `;
 }
@@ -177,24 +173,14 @@ function getIconPath(conditionCode, isDay) {
     return `${folder}/${conditionCode}.png`;
 }
 
-function fetchLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                let lat = position.coords.latitude;
-                let lon = position.coords.longitude;
-                console.log(lat, lon)
-                localStorage.setItem("userLocation", JSON.stringify({ lat, lon }));
-                window.location.reload();
-            },
-            (error) => {
-                alertDiv.classList.remove("hidden");
-                alertDiv.querySelector("p").innerHTML = "Location access denied. Enter manually.";
-            }
-        );
-    } else {
-        alertDiv.classList.remove("hidden");
-        alertDiv.querySelector("p").innerHTML = "Geolocation is not supported by this browser.";
+function saveCity(name, lat, lon) {
+    let cities = JSON.parse(localStorage.getItem('cities')) || [];
+
+    const exists = cities.some(city => city.name === name);
+
+    if (!exists) {
+        cities.push({ name, lat, lon });
+        localStorage.setItem('cities', JSON.stringify(cities));
     }
 }
 
