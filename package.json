@@ -1,13 +1,13 @@
 {
   "name": "weather-news",
   "version": "1.0.0",
-  "description": "A weather API",
+  "description": "A weather web App",
   "main": "apps.js",
   "scripts": {
     "start": "node app.js",
     "test": "nodemon app.js"
   },
-  "author": "",
+  "author": "sunjay Kumar",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.7",

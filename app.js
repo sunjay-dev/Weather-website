@@ -14,7 +14,7 @@ app.use('/', weatherRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-const port = 3000;
+const port = 3000 || process.env.PORT;
 app.listen(port, () => {
   console.log(`App running on port http://localhost:${port}`);
 });

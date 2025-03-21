@@ -5,7 +5,7 @@ const dateTimeDiv = document.getElementById('dateTimeDiv');
 const time_date_parent = document.getElementById('time-date-parent');
 const alertDiv = document.getElementById('alert');
 let chooseLocationDiv = document.getElementById("chooseLocationDiv");
-
+let currentDateTime;
 document.addEventListener("DOMContentLoaded", function () {
 
     let location = localStorage.getItem("userLocation");
@@ -56,36 +56,41 @@ function fetchWeatherUsingCityName() {
 }
 
 function updateDateTime(data) {
-    // document.body.style.backgroundImage = `url('/home/${data.forecast[0].skytextday}.jpg')`;
+    const timeZone = data.location.tz_id;
     const dateAndMonth = new Date(data.forecast.forecastday[0].date).toDateString().split(' ');
+
+    function updateTime() {
+        const now = new Date();
+        const localTime = new Intl.DateTimeFormat('en-GB', {
+            timeZone,
+            hour: '2-digit',
+            minute: '2-digit',
+            hourCycle: 'h23'
+        }).format(now);
+
+        document.getElementById('time').textContent = localTime;
+    }
+    
+    function syncWithDeviceClock() {
+        updateTime();
+
+        const now = new Date();
+        const seconds = now.getSeconds();
+
+        const msUntilNextMinute = (60 - seconds) * 1000;
+        setTimeout(() => {
+            updateTime(); 
+            setInterval(updateTime, 60000);
+        }, msUntilNextMinute);
+    }
+
     dateTimeDiv.innerHTML = `
     <div class="text-center mb-10">
-        <h1 class="text-6xl font-bold" id="time">09:45</h1>
+        <h1 class="text-6xl font-bold" id="time">--:--</h1> <!-- Placeholder -->
         <p class="mb-4 mt-1 text-gray-300 text-lg">${daysMap[dateAndMonth[0]]} | ${dateAndMonth[1]} ${dateAndMonth[2]} </p>
-    </div> 
-    `;
-}
-function updateDayForecast(data) {
-    Day_forcast.innerHTML = ""; // Clear previous content
+    </div> `;
 
-    const forecastDays = data.forecast.forecastday.slice(1, 3); // Get next 2 days
-
-    forecastDays.forEach((day) => {
-        let dayName = new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' }); // Get "Mon", "Tue", etc.
-        const iconPath = getIconPath(day.day.condition.code, true);
-
-        Day_forcast.innerHTML += `
-        <div class="flex justify-between items-center p-2">
-            <p class="text-lg font-medium">${dayName}</p>
-
-            <div class="flex items-center">
-                <img src="/home/${iconPath}" alt="Weather Icon" class="w-10 h-10">
-                <p class="ml-2 font-medium">${day.day.condition.text}</p>
-            </div>
-
-            <p class=" font-bold text-lg">${day.day.maxtemp_c}° <span class=" font-medium text-sm">${day.day.mintemp_c}°</span></p>
-        </div>`;
-    });
+    syncWithDeviceClock();
 }
 
 function updateHourForecast(data) {
@@ -129,6 +134,29 @@ function updateCurrentWeather(data) {
             <img src="/home/${getIconPath(data.current.condition.code, isDay)}" id="currentWeatherImg" alt="Weather" class="w-28 h-28">
         </div>
     `;
+}
+
+function updateDayForecast(data) {
+    Day_forcast.innerHTML = "";
+
+    const forecastDays = data.forecast.forecastday.slice(1, 3);
+
+    forecastDays.forEach((day) => {
+        let dayName = new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' });
+        const iconPath = getIconPath(day.day.condition.code, true);
+
+        Day_forcast.innerHTML += `
+        <div class="flex justify-between items-center p-2">
+            <p class="text-lg font-medium">${dayName}</p>
+
+            <div class="flex items-center">
+                <img src="/home/${iconPath}" alt="Weather Icon" class="w-10 h-10">
+                <p class="ml-2 font-medium">${day.day.condition.text}</p>
+            </div>
+
+            <p class=" font-bold text-lg">${day.day.maxtemp_c}° <span class=" font-medium text-sm">${day.day.mintemp_c}°</span></p>
+        </div>`;
+    });
 }
 
 function getIconPath(conditionCode, isDay) {
