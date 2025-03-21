@@ -2,17 +2,24 @@ const forcast = document.getElementById('forcast');
 const Day_forcast = document.getElementById('Day_forcast');
 const weather_card = document.getElementById('weather-card');
 const dateTimeDiv = document.getElementById('dateTimeDiv');
+const backDiv = document.getElementById('backDiv');
 
 document.addEventListener("DOMContentLoaded", function () {
     let location = localStorage.getItem("userLocation");
     let city = localStorage.getItem("city");
 
-    if(!city && !location)
-    window.location.href = '/';   
-    else if(city)
-    fetchWeatherUsingCityName(city)
-    else 
-    fetchWeatherUsingLatLong(location);
+    if (!city && !location)
+        window.location.href = '/';
+    else if (city)
+        fetchWeatherUsingCityName(city)
+    else
+        fetchWeatherUsingLatLong(location);
+
+    backDiv.addEventListener('click', () => window.location.href = '/');
+    backDiv.innerHTML = `
+    <button class="w-9 h-9 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-200 transition">
+    <img src="/back.svg" class="w-6 h-6">
+    </button>`;
 });
 
 function fetchWeatherUsingLatLong(location) {
@@ -44,7 +51,7 @@ function fetchWeatherUsingCityName(city) {
         .then(data => {
             console.log(data);
             document.body.style.backgroundImage = `url('/home/bg/${data.current.is_day ? "day" : "night"}.jpg')`;
-            
+
             updateDateTime(data);
             updateCurrentWeather(data);
             updateHourForecast(data);
@@ -102,15 +109,15 @@ function updateHourForecast(data) {
         timeZone,
         hour: '2-digit',
         hourCycle: 'h23'
-    }).format(now)) +1;
+    }).format(now)) + 1;
 
     let hourlyData = [];
 
     if ((24 - currentHour) >= 4) {
         hourlyData = data.forecast.forecastday[0].hour.slice(currentHour, currentHour + 4);
-    }  else {
+    } else {
         const todayHours = data.forecast.forecastday[0].hour.slice(currentHour, 24);
-        const tomorrowHours = data.forecast.forecastday[1].hour.slice(0, 4-todayHours.length);
+        const tomorrowHours = data.forecast.forecastday[1].hour.slice(0, 4 - todayHours.length);
         hourlyData = [...todayHours, ...tomorrowHours]
     }
 
