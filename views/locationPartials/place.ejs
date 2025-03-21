@@ -1,18 +1,24 @@
-<div id="chooseLocationDiv" class="w-full p-6">
+<div id="chooseLocationDiv" class="w-full mt-20 p-6">
+    <div class="text-center">
+        <h1 id="welcomeMessage" class="text-3xl font-semibold text-white">
+            Get real-time weather updates!
+        </h1>
+    </div>
+
     <div id="alert" class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 hidden">
         <p>This is an alert message.</p>
     </div>
 
-    <p class="text-lg text-white my-4">Choose your location</p>
+    <p class="text-lg text-white my-4">Search for your location</p>
 
     <div class="">
-        <input id="manualLocation" type="text" placeholder="Enter city..." 
+        <input id="manualLocation" type="text" placeholder="Enter city name..." 
             class="w-full bg-white text-gray-700 px-3 py-2 rounded-lg border border-white focus:outline-none">
     </div>
 
     <button onclick="fetchLocation()" 
         class="bg-white mt-4 text-gray-700 px-4 flex justify-center items-center py-2 rounded-lg mb-2 w-full">
-        <img src="/location.svg" class="w-5 h-5"> Allow Location
+        <img src="/location.svg" class="w-5 h-5"> Detect My Location
     </button>
     
     <p class="text-lg mt-6 mb-2">Last Searched Cities</p>

@@ -17,9 +17,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     backDiv.addEventListener('click', () => window.location.href = '/');
     backDiv.innerHTML = `
-    <button class="w-9 h-9 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-200 transition">
+    <button class="w-9 h-9 mt-1 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-200 transition">
     <img src="/back.svg" class="w-6 h-6">
-    </button>`;
+    </button>
+    <img src="/logo_white.png" class="w-14 h-14">
+    `;
 });
 
 function fetchWeatherUsingLatLong(location) {

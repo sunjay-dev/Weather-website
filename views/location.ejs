@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('locationPartials/head') %>
+    <%- include('partials/head') %>
+    <title>WeatherX</title>
 </head>
 <body class="font-[Inter] bg-left bg-no-repeat bg-cover p-6 text-white min-h-dvh"
     style="background-image: url('/home/bg/day.jpg');">
+    <div>
+        <img src="/logo_white.png" class="w-20 h-20" alt="WeatherX Logo">
+    </div>
     
     <%- include('locationPartials/place') %>
-    
+
+    <footer class="text-center text-gray-100 text-sm py-4">
+        Source code available on 
+        <a href="https://github.com/sunjay-dev/Weather-website" target="_blank" class="text-white underline hover:text-gray-400">
+            GitHub
+        </a>.
+    </footer>
    </body>
 <script src="/location/script.js"></script>
 </html>
