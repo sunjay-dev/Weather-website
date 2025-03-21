@@ -5,36 +5,12 @@
     <%- include('homePartials/head') %>
 </head>
 
-<body class="font-[Inter] bg-center bg-no-repeat bg-cover text-white"  style="background-image: url('/home/rainny.jpg');">
+<body class="font-[Inter]  min-h-dvh bg-left bg-no-repeat bg-cover text-white flex justify-center items-center"
+    style="background-image: url('/home/rainny.jpg');">
+    <%- include('homePartials/weather') %>
+    <%- include('homePartials/place') %>
 
-    <div class="flex flex-col min-h-dvh">
-        <!-- Main Content -->
-        <div class="flex-grow flex flex-col items-center justify-center">
-
-            <%- include('homePartials/weather') %>
-            <%- include('homePartials/setting') %>
-        </div>
-
-        <!-- Footer -->
-        <div class="fixed bottom-0 left-0 w-full">
-            <div class="flex justify-around py-3">
-                <div class="flex flex-col items-center" id="weather_footer">
-                    <img src="/weather.svg" alt="Weather" class="w-6 h-6">
-                    <p class="text-xs mt-1">Weather</p>
-                </div>
-                <div class="flex flex-col items-center" id="location_footer">
-                    <img src="/location.svg" alt="Location" class="w-6 h-6">
-                    <p class="text-xs mt-1">Location</p>
-                </div>
-                <div class="flex flex-col items-center" id="setting_footer">
-                    <img src="/setting.svg" alt="Settings" class="w-6 h-6">
-                    <p class="text-xs mt-1">Settings</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</body>
+   </body>
 
 <script src="/home/script.js"></script>
 </html>

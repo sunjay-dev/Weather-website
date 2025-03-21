@@ -1,16 +1,27 @@
-const weather = require('weather-js');
+async function get_report(lat, lon, city) {
 
-async function get_report(city) {
+    let q = city ? city : `${lat},${lon}`;
 
-  return new Promise((resolve, reject) => {
-    weather.find({ search: city, degreeType: 'C' }, (err, result) => {
-        if (err) {
-            reject(err);
-        } else {
-            resolve(result);
+    const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${q}&days=3&u=c`;
+    const options = {
+        method: 'GET',
+        headers: {
+            'x-rapidapi-key': process.env.RAPID_API_KEY,
+            'x-rapidapi-host': 'weatherapi-com.p.rapidapi.com'
         }
-    });
-});
+    };
+
+    try {
+        const response = await fetch(url, options);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error("Error fetching weather data:", error);
+        return null;
+    }
 }
 
-module.exports = { get_report };
+module.exports = {get_report };
