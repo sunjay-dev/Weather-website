@@ -70,7 +70,7 @@ function updateDateTime(data) {
 
         document.getElementById('time').textContent = localTime;
     }
-    
+
     function syncWithDeviceClock() {
         updateTime();
 
@@ -79,14 +79,14 @@ function updateDateTime(data) {
 
         const msUntilNextMinute = (60 - seconds) * 1000;
         setTimeout(() => {
-            updateTime(); 
+            updateTime();
             setInterval(updateTime, 60000);
         }, msUntilNextMinute);
     }
 
     dateTimeDiv.innerHTML = `
     <div class="text-center mb-10">
-        <h1 class="text-6xl font-bold" id="time">--:--</h1> <!-- Placeholder -->
+        <h1 class="text-6xl font-bold" id="time">--:--</h1>
         <p class="mb-4 mt-1 text-gray-300 text-lg">${daysMap[dateAndMonth[0]]} | ${dateAndMonth[1]} ${dateAndMonth[2]} </p>
     </div> `;
 
@@ -94,27 +94,40 @@ function updateDateTime(data) {
 }
 
 function updateHourForecast(data) {
+    const timeZone = data.location.tz_id;
+    const now = new Date();
+
+    const currentHour = Number(new Intl.DateTimeFormat('en-GB', {
+        timeZone,
+        hour: '2-digit',
+        hourCycle: 'h23'
+    }).format(now)) +1;
+    console.log(currentHour);
+    let hourlyData = [];
+
+    if ((24 - currentHour) >= 4) {
+        hourlyData = data.forecast.forecastday[0].hour.slice(currentHour, currentHour + 4);
+    }  else {
+        const todayHours = data.forecast.forecastday[0].hour.slice(currentHour, 24);
+        const tomorrowHours = data.forecast.forecastday[1].hour.slice(0, 4-todayHours.length);
+        hourlyData = [...todayHours, ...tomorrowHours]
+    }
+    
+
     forcast.innerHTML = "";
 
-    const currentHour = new Date().getHours() + 1;
-
-    // Extract next 4 hours from today's forecast
-    const hourlyData = data.forecast.forecastday[0].hour.slice(currentHour, currentHour + 4);
-
-    // Loop through the next 4 hours
     hourlyData.forEach(hour => {
-        const time = new Date(hour.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-
-
+        console.log(hour)
         forcast.innerHTML += `
         <div class="text-center">
-            <p class="text-sm">${time}</p>
+            <p class="text-sm">${hour.time.split(' ')[1]}</p>
             <img src="/home/${getIconPath(hour.condition.code, hour.is_day)}" alt="Weather" class="w-11 h-11 object-cover mt-2">
             <p class="text-sm mt-2">${hour.temp_c}°C</p>
             <p class="text-xs text-gray-300 mt-1">${hour.chance_of_rain}% Rain</p>
         </div>`;
     });
 }
+
 
 function updateCurrentWeather(data) {
     const isDay = data.current.is_day === 1;
