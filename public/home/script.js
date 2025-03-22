@@ -106,7 +106,7 @@ function updateDateTime(data) {
     dateTimeDiv.innerHTML = `
     <div class="text-center mb-10">
         <h1 class="text-6xl font-bold" id="time">--:--</h1>
-        <p class="mb-4 mt-1 text-gray-300 text-lg">${daysMap[dateAndMonth[0]]} | ${dateAndMonth[1]} ${dateAndMonth[2]} </p>
+        <p class="mb-4 mt-1 text-gray-100 text-lg">${daysMap[dateAndMonth[0]]} | ${dateAndMonth[1]} ${dateAndMonth[2]} </p>
     </div> `;
 
     syncWithDeviceClock();
@@ -140,7 +140,7 @@ function updateHourForecast(data) {
             <p class="text-sm">${hour.time.split(' ')[1]}</p>
             <img src="/home/${getIconPath(hour.condition.code, hour.is_day)}" alt="Weather" class="w-11 h-11 object-cover mt-2">
             <p class="text-sm mt-2">${hour.temp_c}°C</p>
-            <p class="text-xs text-gray-300 mt-1">${hour.chance_of_rain}% Rain</p>
+            <p class="text-xs text-gray-200 mt-1">${hour.chance_of_rain}% Rain</p>
         </div>`;
     });
 }
@@ -155,9 +155,9 @@ function updateCurrentWeather(data) {
         <div class="flex justify-between items-center mt-9 mb-6">
             <div class="space-y-1">
                 <h2 class="text-6xl font-bold">${data.current.temp_c}°</h2>
-                <p class="text-gray-200">${data.current.condition.text}</p>
-                <p class="text-xs text-gray-200">Chance of Rain: ${data.forecast.forecastday[0].day.daily_chance_of_rain}%</p>
-                <p class="text-xs text-gray-200">Humidity: ${data.current.humidity}%</p>
+                <p class="text-gray-100 truncate">${data.current.condition.text}</p>
+                <p class="text-xs text-gray-100">Chance of Rain: ${data.forecast.forecastday[0].day.daily_chance_of_rain}%</p>
+                <p class="text-xs text-gray-100">Humidity: ${data.current.humidity}%</p>
             </div>
             <img src="/home/${getIconPath(data.current.condition.code, data.current.is_day)}" id="currentWeatherImg" alt="Weather" class="w-28 h-28">
         </div>
@@ -174,16 +174,16 @@ function updateDayForecast(data) {
         const iconPath = getIconPath(day.day.condition.code, true);
 
         Day_forcast.innerHTML += `
-        <div class="flex justify-between items-center p-2">
-            <p class="text-lg font-medium">${dayName}</p>
+        <div class="grid grid-cols-[1fr_2.3fr_1.5fr] items-center p-2">
+    <p class="text-lg font-medium text-start">${dayName}</p>
 
-            <div class="flex items-center">
-                <img src="/home/${iconPath}" alt="Weather Icon" class="w-10 h-10">
-                <p class="ml-2 font-medium">${day.day.condition.text}</p>
-            </div>
+    <div class="flex items-center justify-start truncate">
+        <img src="/home/${iconPath}" alt="Weather Icon" class="w-10 h-10">
+        <p class="ml-2 font-medium truncate">${day.day.condition.text}</p>
+    </div>
 
-            <p class=" font-bold text-lg">${day.day.maxtemp_c}° <span class=" font-medium text-sm">${day.day.mintemp_c}°</span></p>
-        </div>`;
+    <p class="font-bold text-lg text-center truncate">${day.day.maxtemp_c}° <span class="font-medium text-sm">${day.day.mintemp_c}°</span></p>
+</div>`;
     });
 }
 
