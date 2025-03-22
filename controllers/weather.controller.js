@@ -35,7 +35,10 @@ module.exports.fetchWeatherByLatLon = async (req, res, next) => {
 
     try {
         let { lat, lon } = req.query;
-        console.log(lat, lon);
+
+        if(!lat || !lon){
+            res.status(400).json({message: "Both lat and lon parameters are required."})
+        }
 
         const locationKey = `weather:lat${lat}_lon${lon}`;
         const cachedData = await redis.get(locationKey);

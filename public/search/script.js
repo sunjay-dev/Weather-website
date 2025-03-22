@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
         container.innerHTML = "<p class='text-gray-300 text-sm'>No recent searches.</p>";
         return;
     }
-
+    cities = cities.slice(-3);
     container.innerHTML = `
         <div class="space-y-3">
-            ${cities.map(city => `
+            ${cities.reverse().map(city => `
                 <button onclick="fetchWeather('${city.name}')"
                     class="w-full bg-white text-gray-700 px-4 py-2 rounded-lg">
                     ${city.name}
@@ -32,6 +32,7 @@ function fetchLocation() {
                 let lat = position.coords.latitude;
                 let lon = position.coords.longitude;
                 localStorage.setItem("userLocation", JSON.stringify({ lat, lon }));
+                localStorage.removeItem("city");
                 window.location.href = '/home';
             },
             (error) => {
@@ -44,4 +45,13 @@ function fetchLocation() {
         alertDiv.classList.remove("hidden");
         alertDiv.querySelector("p").innerHTML = "Geolocation is not supported by this browser.";
     }
+}
+
+
+document.querySelector('form').onsubmit = (e)=>{
+    e.preventDefault();
+    let cityName = document.getElementById('manualLocation').value;
+    
+    localStorage.setItem('city', cityName);
+    window.location.href = '/home';
 }
