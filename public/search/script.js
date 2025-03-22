@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     cities = cities.slice(-3);
     container.innerHTML = `
-        <div class="space-y-3">
+        <div class="space-y-2">
             ${cities.reverse().map(city => `
                 <button onclick="fetchWeather('${city.name}')"
                     class="w-full bg-white text-gray-700 px-4 py-2 rounded-lg">

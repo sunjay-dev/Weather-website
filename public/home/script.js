@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     backDiv.addEventListener('click', () => window.location.href = '/');
     backDiv.innerHTML = `
     <button class="w-9 h-9 mt-1 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-200 transition">
-    <img src="/back.svg" class="w-6 h-6">
+    <img src="/home/icons/back.svg" class="w-6 h-6">
     </button>
     <img src="/logo_white.png" class="w-14 h-14">
     `;
@@ -149,7 +149,7 @@ function updateCurrentWeather(data) {
     weather_card.innerHTML = `
     <div class="flex items-center justify-between">
             <p class="text-lg">${data.location.name}, ${data.location.region}</p>
-            <img src="/home/threeDots.svg" class="h-5 w-5 rotate-90">
+            <img onclick="refreshLocation()" id="refreshIcon" src="/home/icons/refresh.svg" class="h-5 w-5 rotate-90 cursor-pointer">
         </div>
         <div class="flex justify-between items-center mt-9 mb-6">
             <div class="space-y-1">
@@ -200,6 +200,24 @@ function saveCity(name, lat, lon) {
         cities.push({ name, lat, lon });
         localStorage.setItem('cities', JSON.stringify(cities));
     }
+}
+
+function refreshLocation() {
+    let refreshIcon = document.getElementById("refreshIcon");
+    refreshIcon.disabled = true;
+
+   refreshIcon.classList.add("rotate-180");
+    setTimeout(() => {
+        refreshIcon.classList.remove("rotate-180");
+        
+        setTimeout(() => {
+            refreshIcon.classList.add("rotate-180"); 
+            window.location.reload();
+            setTimeout(() => {
+                refreshIcon.classList.remove("rotate-180"); 
+            }, 500);
+        }, 500);
+    }, 500);
 }
 
 const daysMap = {
