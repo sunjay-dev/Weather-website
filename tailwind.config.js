@@ -1,8 +1,11 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./views/*.ejs","./views/**/*.ejs", "./public/**/*.js"],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        slowPulse: "pulse 3s infinite"
+      },
+    },
   },
   plugins: [],
 }

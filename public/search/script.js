@@ -1,6 +1,23 @@
 const alertDiv = document.getElementById('alert');
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    const splash = document.getElementById("splash-screen");
+    const mainContent = document.getElementById("chooseLocationDiv");
+    
+    let t = parseInt(localStorage.getItem("t")) || 3000;
+    
+    setTimeout(() => {
+        splash.classList.add("opacity-0", "transition-opacity", "duration-500");
+    }, t);
+    
+    setTimeout(() => {
+        splash.classList.add("hidden");
+        mainContent.classList.remove("hidden");
+    }, t + 500); 
+    
+    localStorage.setItem("t", 1000);
+
     let cities = JSON.parse(localStorage.getItem('cities')) || [];
     let container = document.getElementById('lastSearchedCities');
 
@@ -38,22 +55,23 @@ function fetchLocation() {
             (error) => {
                 alertDiv.classList.remove("hidden");
                 alertDiv.querySelector("p").innerHTML = "Location access denied. Please allow permission.";
-                setTimeout(()=> alertDiv.classList.add("hidden"), 2000);
+                setTimeout(() => alertDiv.classList.add("hidden"), 2000);
             },
             { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
         );
     } else {
         alertDiv.classList.remove("hidden");
         alertDiv.querySelector("p").innerHTML = "Geolocation is not supported by this browser.";
-        setTimeout(()=> alertDiv.classList.add("hidden"), 2000);
+        setTimeout(() => alertDiv.classList.add("hidden"), 2000);
     }
 }
 
 
-document.querySelector('form').onsubmit = (e)=>{
+document.querySelector('form').onsubmit = (e) => {
     e.preventDefault();
     let cityName = document.getElementById('manualLocation').value;
-    
+
     localStorage.setItem('city', cityName);
     window.location.href = '/home';
 }
+

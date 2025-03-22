@@ -1,35 +1,47 @@
-<div id="chooseLocationDiv" class="w-full mt-16 p-4">
-    <div class="text-center">
-        <h1 id="welcomeMessage" class="text-3xl font-semibold text-white">
-            Get real-time weather updates!
-        </h1>
-    </div>
-
-    <div id="alert" class="bg-orange-100 border-l-4 mt-4 border-orange-500 text-orange-700 p-4 hidden">
-        <p>This is an alert message.</p>
-    </div>
-
-    <form>
-    <p class="text-lg text-white my-4">Search for your location</p>
-
+<div id="chooseLocationDiv" class="w-full p-6 hidden">
     <div>
-        <input id="manualLocation" type="text" placeholder="Enter city name..." required
-            class="w-full bg-white text-gray-700 px-3 py-2 rounded-lg border border-white focus:outline-none">
+        <img src="/logo_white.png" class="w-20 h-20" alt="WeatherX Logo">
     </div>
+    <div class="p-4">
+        <div class="text-center mt-16">
+            <h1 id="welcomeMessage" class="text-3xl  font-semibold text-white">
+                Get real-time weather updates!
+            </h1>
+        </div>
 
-    <button type="submit" class="w-full bg-white text-gray-700 px-4 py-2 rounded-lg mt-3.5">
-        Search by City
-    </button>
-    </form>
-    <button onclick="fetchLocation()" 
-        class="bg-white text-gray-700 px-4 flex justify-center items-center py-2 rounded-lg my-2 w-full">
-        <img src="/search/location.svg" class="w-5 h-5"> 
-        <span class="ml-2">Detect My Location </span>
-    </button>
-    
-    <p class="text-lg mt-8 mb-2">Last Searched Cities</p>
+        <div id="alert" class="bg-orange-100 border-l-4 mt-4 border-orange-500 text-orange-700 p-4 hidden">
+            <p>This is an alert message.</p>
+        </div>
 
-    <div id="lastSearchedCities" class="">
+        <form>
+            <p class="text-lg text-white my-4">Search for your location</p>
 
+            <div>
+                <input id="manualLocation" type="text" placeholder="Enter city name..." required
+                    class="w-full bg-white text-gray-700 px-3 py-2 rounded-lg border border-white focus:outline-none">
+            </div>
+
+            <button type="submit" class="w-full bg-white text-gray-700 px-4 py-2 rounded-lg mt-3.5">
+                Search by City
+            </button>
+        </form>
+        <button onclick="fetchLocation()"
+            class="bg-white text-gray-700 px-4 flex justify-center items-center py-2 rounded-lg my-2 w-full">
+            <img src="/search/location.svg" class="w-5 h-5">
+            <span class="ml-2">Detect My Location </span>
+        </button>
+
+        <p class="text-lg mt-8 mb-2">Last Searched Cities</p>
+
+        <div id="lastSearchedCities" class="">
+
+        </div>
+
+        <footer class="text-center text-gray-100 text-sm py-7">
+            Source code available on
+            <a href="https://github.com/sunjay-dev/Weather-website" target="_blank" class="text-white underline">
+                GitHub
+            </a>.
+        </footer>
     </div>
 </div>
