@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     cities = cities.slice(-3);
     container.innerHTML = `
-        <div class="space-y-2">
+        <div class="space-y-1.5">
             ${cities.reverse().map(city => `
                 <button onclick="fetchWeather('${city.name}')"
                     class="w-full bg-white text-gray-700 px-4 py-2 rounded-lg">
@@ -38,12 +38,14 @@ function fetchLocation() {
             (error) => {
                 alertDiv.classList.remove("hidden");
                 alertDiv.querySelector("p").innerHTML = "Location access denied. Please allow permission.";
+                setTimeout(()=> alertDiv.classList.add("hidden"), 2000);
             },
             { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
         );
     } else {
         alertDiv.classList.remove("hidden");
         alertDiv.querySelector("p").innerHTML = "Geolocation is not supported by this browser.";
+        setTimeout(()=> alertDiv.classList.add("hidden"), 2000);
     }
 }
 

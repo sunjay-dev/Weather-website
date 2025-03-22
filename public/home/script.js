@@ -209,10 +209,9 @@ function refreshLocation() {
    refreshIcon.classList.add("rotate-180");
     setTimeout(() => {
         refreshIcon.classList.remove("rotate-180");
-        
+        window.location.reload();
         setTimeout(() => {
             refreshIcon.classList.add("rotate-180"); 
-            window.location.reload();
             setTimeout(() => {
                 refreshIcon.classList.remove("rotate-180"); 
             }, 500);
