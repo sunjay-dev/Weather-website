@@ -3,6 +3,7 @@ const Day_forcast = document.getElementById('Day_forcast');
 const weather_card = document.getElementById('weather-card');
 const dateTimeDiv = document.getElementById('dateTimeDiv');
 const backDiv = document.getElementById('backDiv');
+const err = document.getElementById('err');
 
 document.addEventListener("DOMContentLoaded", function () {
     let location = localStorage.getItem("userLocation");
@@ -39,7 +40,12 @@ function fetchWeatherUsingLatLong(location) {
             updateDayForecast(data);
             saveCity(`${data.location.name}, ${data.location.region}`, data.location.lat, data.location.lon);
         })
-        .catch(error => console.error("Weather fetch error:", error));
+        .catch(error => {
+            console.error("Weather fetch error:", error.message);
+            err.classList.remove("hidden");
+            err.querySelector("span").innerHTML = error.message;
+            setTimeout(() => window.location.href = "/", 2500);
+        });
 }
 
 function fetchWeatherUsingCityName(city) {
@@ -61,7 +67,10 @@ function fetchWeatherUsingCityName(city) {
             saveCity(`${data.location.name}, ${data.location.region}`, data.location.lat, data.location.lon);
         })
         .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
+            console.error('There has been a problem with your fetch operation:', error.message);
+            err.classList.remove("hidden");
+            err.querySelector("span").innerHTML = error.message;
+            setTimeout(() => window.location.href = "/", 1500);
         });
 }
 

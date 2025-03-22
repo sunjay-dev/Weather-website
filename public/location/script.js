@@ -37,7 +37,8 @@ function fetchLocation() {
             (error) => {
                 alertDiv.classList.remove("hidden");
                 alertDiv.querySelector("p").innerHTML = "Location access denied. Please allow permission.";
-            }
+            },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
         );
     } else {
         alertDiv.classList.remove("hidden");
