@@ -21,7 +21,7 @@ module.exports.fetchWeatherByCity = async (req, res, next) => {
             return res.status(404).json({ message: "Weather data not found." });
         }
 
-        await redis.set(cityKey, JSON.stringify(weatherData), "EX", 7200);
+        await redis.set(cityKey, JSON.stringify(weatherData), "EX", 600);
         return res.json(weatherData);
 
     } catch (error) {

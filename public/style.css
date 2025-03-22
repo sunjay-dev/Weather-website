@@ -755,6 +755,10 @@ video {
   width: 7rem;
 }
 
+.w-3\/5 {
+  width: 60%;
+}
+
 .w-32 {
   width: 8rem;
 }
@@ -785,18 +789,6 @@ video {
 
 .w-full {
   width: 100%;
-}
-
-.w-1\/2 {
-  width: 50%;
-}
-
-.w-3\/5 {
-  width: 60%;
-}
-
-.flex-1 {
-  flex: 1 1 0%;
 }
 
 .rotate-\[360deg\] {
