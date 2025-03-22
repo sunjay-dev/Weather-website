@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="space-y-1.5">
             ${cities.reverse().map(city => `
                 <button onclick="fetchWeather('${city.name}')"
-                    class="w-full bg-white text-gray-700 px-4 py-2 rounded-lg">
+                    class="w-full bg-white text-gray-700 px-4 py-2 truncate rounded-lg">
                     ${city.name}
                 </button>
             `).join('')}

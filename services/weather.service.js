@@ -10,7 +10,6 @@ async function get_report(lat, lon, city) {
             'x-rapidapi-host': 'weatherapi-com.p.rapidapi.com'
         }
     };
-
     try {
         const response = await fetch(url, options);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);

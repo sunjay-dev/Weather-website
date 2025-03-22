@@ -28,8 +28,14 @@ document.addEventListener("DOMContentLoaded", function () {
 function fetchWeatherUsingLatLong(location) {
     let { lat, lon } = JSON.parse(location);
     fetch(`/weather/latlon?lat=${lat}&lon=${lon}`)
-        .then(response => response.json())
-        .then(data => {
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(errData => {
+                throw new Error(errData.message || "Failed to fetch weather data");
+            });
+        }
+        return response.json();
+    }).then(data => {
             console.log(data);
 
             document.body.style.backgroundImage = `url('/home/bg/${data.current.is_day ? 'day' : 'night'}.jpg')`;
@@ -43,7 +49,7 @@ function fetchWeatherUsingLatLong(location) {
         .catch(error => {
             console.error("Weather fetch error:", error.message);
             err.classList.remove("hidden");
-            err.querySelector("span").innerHTML = error.message;
+            err.querySelector("span").innerHTML = `Message: ${error.message}`;
             setTimeout(() => window.location.href = "/", 2500);
         });
 }
@@ -52,7 +58,9 @@ function fetchWeatherUsingCityName(city) {
     fetch(`/weather/?city=${city}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
+                return response.json().then(errData => {
+                    throw new Error(errData.message || "Failed to fetch weather data");
+                });
             }
             return response.json();
         })
@@ -69,7 +77,7 @@ function fetchWeatherUsingCityName(city) {
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error.message);
             err.classList.remove("hidden");
-            err.querySelector("span").innerHTML = error.message;
+            err.querySelector("span").innerHTML = `Message: ${error.message}`;
             setTimeout(() => window.location.href = "/", 1500);
         });
 }
@@ -148,12 +156,12 @@ function updateHourForecast(data) {
 function updateCurrentWeather(data) {
     weather_card.innerHTML = `
     <div class="flex items-center justify-between">
-            <p class="text-lg">${data.location.name}, ${data.location.region}</p>
+            <p class="text-lg truncate">${data.location.name}, ${data.location.region}</p>
             <img id="refreshIcon" onclick="refreshLocation()" src="/home/icons/refresh.svg" 
      class="h-5 w-5 cursor-pointer transition-transform duration-1000">
         </div>
         <div class="flex justify-between items-center mt-9 mb-6">
-            <div class="space-y-1">
+            <div class="space-y-1 w-3/5">
                 <h2 class="text-6xl font-bold">${data.current.temp_c}°</h2>
                 <p class="text-gray-100 truncate">${data.current.condition.text}</p>
                 <p class="text-xs text-gray-100">Chance of Rain: ${data.forecast.forecastday[0].day.daily_chance_of_rain}%</p>

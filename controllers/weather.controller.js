@@ -7,7 +7,7 @@ module.exports.fetchWeatherByCity = async (req, res, next) => {
         const { city } = req.query;
 
         if (!city) 
-        return res.status(400).json({ error: "City parameter is required" });
+        return res.status(400).json({ error: "City parameter is required." });
         
         const cityKey = `weather:${city.toLowerCase().trim()}`;
         const cachedData = await redis.get(cityKey);
@@ -18,7 +18,7 @@ module.exports.fetchWeatherByCity = async (req, res, next) => {
         const weatherData = await get_report(null, null, city);
 
         if (!weatherData) {
-            return res.status(404).json({ message: "Weather data not found" });
+            return res.status(404).json({ message: "Weather data not found." });
         }
 
         await redis.set(cityKey, JSON.stringify(weatherData), "EX", 7200);
@@ -26,7 +26,7 @@ module.exports.fetchWeatherByCity = async (req, res, next) => {
 
     } catch (error) {
         res.status(500).json({
-            message: "Error Fetching weather data"
+            message: "Error Fetching weather data."
         })
     }
 }
@@ -48,14 +48,14 @@ module.exports.fetchWeatherByLatLon = async (req, res, next) => {
         const weatherData = await get_report(lat, lon, null);
 
         if (!weatherData) {
-            return res.status(404).json({ message: "Weather data not found" });
+            return res.status(404).json({ message: "Weather data not found." });
         }
 
         await redis.set(locationKey, JSON.stringify(weatherData), "EX", 600);
         return res.json(weatherData);
     } catch (error) {
         res.status(500).json({
-            message: "Error Fetching weather data"
+            message: "Error Fetching weather data."
         })
     }
 }
