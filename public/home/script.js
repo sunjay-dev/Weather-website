@@ -149,7 +149,8 @@ function updateCurrentWeather(data) {
     weather_card.innerHTML = `
     <div class="flex items-center justify-between">
             <p class="text-lg">${data.location.name}, ${data.location.region}</p>
-            <img onclick="refreshLocation()" id="refreshIcon" src="/home/icons/refresh.svg" class="h-5 w-5 rotate-90 cursor-pointer">
+            <img id="refreshIcon" onclick="refreshLocation()" src="/home/icons/refresh.svg" 
+     class="h-5 w-5 cursor-pointer transition-transform duration-1000">
         </div>
         <div class="flex justify-between items-center mt-9 mb-6">
             <div class="space-y-1">
@@ -204,19 +205,12 @@ function saveCity(name, lat, lon) {
 
 function refreshLocation() {
     let refreshIcon = document.getElementById("refreshIcon");
-    refreshIcon.disabled = true;
-
-   refreshIcon.classList.add("rotate-180");
+    refreshIcon.classList.add("rotate-[360deg]");
     setTimeout(() => {
-        refreshIcon.classList.remove("rotate-180");
+        refreshIcon.classList.remove("rotate-[360deg]");
+        refreshIcon.classList.add("rotate-[720deg]");
         window.location.reload();
-        setTimeout(() => {
-            refreshIcon.classList.add("rotate-180"); 
-            setTimeout(() => {
-                refreshIcon.classList.remove("rotate-180"); 
-            }, 500);
-        }, 500);
-    }, 500);
+    }, 600);
 }
 
 const daysMap = {
