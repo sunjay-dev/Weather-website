@@ -15,7 +15,7 @@ app.use('/', weatherRoutes);
 app.use(express.static(path.join(__dirname, "public"), { 
     setHeaders: (res, path) => {
         res.status(200);
-        // res.setHeader('Cache-Control', 'public, max-age=31536000');
+        res.setHeader('Cache-Control', 'public, max-age=31536000');
     }
 }));
 

@@ -38,7 +38,7 @@ function fetchWeatherUsingLatLong(location) {
     }).then(data => {
             console.log(data);
 
-            document.body.style.backgroundImage = `url('/home/bg/${data.current.is_day ? 'day' : 'night'}.jpg')`;
+            document.body.style.backgroundImage = `url('/home/bg/${data.current.is_day ? 'day' : 'night'}.webp')`;
 
             updateDateTime(data);
             updateCurrentWeather(data);
@@ -66,7 +66,7 @@ function fetchWeatherUsingCityName(city) {
         })
         .then(data => {
             console.log(data);
-            document.body.style.backgroundImage = `url('/home/bg/${data.current.is_day ? 'day' : 'night'}.jpg')`;
+            document.body.style.backgroundImage = `url('/home/bg/${data.current.is_day ? 'day' : 'night'}.webp')`;
 
             updateDateTime(data);
             updateCurrentWeather(data);

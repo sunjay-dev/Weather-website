@@ -6,6 +6,11 @@ router.get("/", (req,res)=>{
     res.render("search.ejs")
 })
 
+router.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.send(`User-agent: *\nDisallow: /private/\nAllow: /public/`);
+});
+
 router.get("/home", (req,res)=>{
     res.render("home.ejs")
 })
