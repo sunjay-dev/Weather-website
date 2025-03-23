@@ -18,10 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     backDiv.addEventListener('click', () => window.location.href = '/');
     backDiv.innerHTML = `
-    <button class="w-9 h-9 mt-1 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-200 transition">
-    <img src="/home/icons/back.svg" class="w-6 h-6">
+    <button aria-label="Go Back" class="w-9 h-9 mt-1 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-200 transition">
+    <img src="/home/icons/back.svg" alt="Back Icon" class="w-6 h-6">
     </button>
-    <img src="/logo_white.png" class="w-14 h-14">
+    <img src="/logo_white.webp" alt="logo" class="w-14 h-14">
     `;
 });
 
@@ -157,7 +157,7 @@ function updateCurrentWeather(data) {
     weather_card.innerHTML = `
     <div class="flex items-center justify-between">
             <p class="text-lg truncate">${data.location.name}, ${data.location.region}</p>
-            <img id="refreshIcon" onclick="refreshLocation()" src="/home/icons/refresh.svg" 
+            <img id="refreshIcon" onclick="refreshLocation()" alt="refresh icon" src="/home/icons/refresh.svg" 
      class="h-5 w-5 cursor-pointer transition-transform duration-1000">
         </div>
         <div class="flex justify-between items-center mt-9 mb-6">
@@ -197,7 +197,7 @@ function updateDayForecast(data) {
 
 function getIconPath(conditionCode, isDay) {
     const folder = isDay ? "day" : "night";
-    return `${folder}/${conditionCode}.png`;
+    return `${folder}/${conditionCode}.webp`;
 }
 
 function saveCity(name, lat, lon) {
