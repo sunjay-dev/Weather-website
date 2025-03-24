@@ -1,6 +1,8 @@
 # Weather Web App
 A simple weather web application that allows users to search for the weather of any city or detect their current location to fetch real-time weather data with a modern UI. The app provides temperature, humidity, rain chances, and other weather conditions using an external API.
 
+<img src="https://github.com/user-attachments/assets/17ddcabf-2f7a-4c52-9b04-c7c97126c117" width="300" height="auto">
+
 ## Features
 - 🌍 **Search by City** – Enter a city name to get live weather updates.
 - 📍 **Detect Location** – Automatically fetch weather data for your current location.
