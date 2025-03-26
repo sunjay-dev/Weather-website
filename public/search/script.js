@@ -57,7 +57,7 @@ function fetchLocation() {
                 alertDiv.querySelector("p").innerHTML = "Location access denied. Please allow permission.";
                 setTimeout(() => alertDiv.classList.add("hidden"), 2000);
             },
-            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            { timeout: 5000, maximumAge: 0 }
         );
     } else {
         alertDiv.classList.remove("hidden");

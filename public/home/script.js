@@ -15,36 +15,20 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchWeatherUsingCityName(city)
     else
         fetchWeatherUsingLatLong(location);
-
-    backDiv.addEventListener('click', () => window.location.href = '/');
-    backDiv.innerHTML = `
-    <button aria-label="Go Back" class="w-9 h-9 mt-1 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-200 transition">
-    <img src="/home/icons/back.svg" alt="Back Icon" class="w-6 h-6">
-    </button>
-    <img src="/logo_white.webp" alt="logo" class="w-14 h-14">
-    `;
 });
 
 function fetchWeatherUsingLatLong(location) {
     let { lat, lon } = JSON.parse(location);
     fetch(`/weather/latlon?lat=${lat}&lon=${lon}`)
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(errData => {
-                throw new Error(errData.message || "Failed to fetch weather data");
-            });
-        }
-        return response.json();
-    }).then(data => {
-            console.log(data);
-
-            document.body.style.backgroundImage = `url('/home/bg/${data.current.is_day ? 'day' : 'night'}.webp')`;
-
-            updateDateTime(data);
-            updateCurrentWeather(data);
-            updateHourForecast(data);
-            updateDayForecast(data);
-            saveCity(`${data.location.name}, ${data.location.region}`, data.location.lat, data.location.lon);
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errData => {
+                    throw new Error(errData.message || "Failed to fetch weather data");
+                });
+            }
+            return response.json();
+        }).then(data => {
+            main(data);
         })
         .catch(error => {
             console.error("Weather fetch error:", error.message);
@@ -65,14 +49,7 @@ function fetchWeatherUsingCityName(city) {
             return response.json();
         })
         .then(data => {
-            console.log(data);
-            document.body.style.backgroundImage = `url('/home/bg/${data.current.is_day ? 'day' : 'night'}.webp')`;
-
-            updateDateTime(data);
-            updateCurrentWeather(data);
-            updateHourForecast(data);
-            updateDayForecast(data);
-            saveCity(`${data.location.name}, ${data.location.region}`, data.location.lat, data.location.lon);
+            main(data);
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error.message);
@@ -81,6 +58,24 @@ function fetchWeatherUsingCityName(city) {
             setTimeout(() => window.location.href = "/", 1500);
         });
 }
+
+function main(data) {
+    console.log(data);
+
+    updateDateTime(data);
+    updateCurrentWeather(data);
+    updateHourForecast(data);
+    updateDayForecast(data);
+    saveCity(`${data.location.name}, ${data.location.region}`, data.location.lat, data.location.lon);
+
+    backDiv.addEventListener('click', () => window.location.href = '/');
+    backDiv.innerHTML = `
+    <button aria-label="Go Back" class="w-9 h-9 mt-1 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-200 transition">
+    <img src="/home/icons/back.svg" alt="Back Icon" class="w-6 h-6">
+    </button>
+    <img src="/logo_white.webp" alt="logo" class="w-14 h-14">`;
+}
+
 
 function updateDateTime(data) {
     const timeZone = data.location.tz_id;
@@ -130,6 +125,8 @@ function updateHourForecast(data) {
         hourCycle: 'h23'
     }).format(now)) + 1;
 
+    updateBackground(currentHour-1);
+
     let hourlyData = [];
 
     if ((24 - currentHour) >= 4) {
@@ -151,6 +148,19 @@ function updateHourForecast(data) {
             <p class="text-xs text-gray-200 mt-1">${hour.chance_of_rain}% Rain</p>
         </div>`;
     });
+}
+function updateBackground(currentHour) {
+    const body = document.body;
+    
+    if (currentHour >= 5 && currentHour < 8) {
+        body.style.backgroundImage = "url('/home/bg/sunrise.webp')";
+    } else if (currentHour >= 8 && currentHour < 16) {
+        body.style.backgroundImage = "url('/home/bg/day.webp')";
+    } else if (currentHour >= 16 && currentHour < 19) {
+        body.style.backgroundImage = "url('/home/bg/evening.webp')";
+    } else {
+        body.style.backgroundImage = "url('/home/bg/night.webp')";
+    }
 }
 
 function updateCurrentWeather(data) {
