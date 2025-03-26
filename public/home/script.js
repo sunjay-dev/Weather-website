@@ -68,14 +68,12 @@ function main(data) {
     updateDayForecast(data);
     saveCity(`${data.location.name}, ${data.location.region}`, data.location.lat, data.location.lon);
 
-    backDiv.addEventListener('click', () => window.location.href = '/');
     backDiv.innerHTML = `
     <button aria-label="Go Back" class="w-9 h-9 mt-1 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-200 transition">
     <img src="/home/icons/back.svg" alt="Back Icon" class="w-6 h-6">
     </button>
     <img src="/logo_white.webp" alt="logo" class="w-14 h-14">`;
 }
-
 
 function updateDateTime(data) {
     const timeZone = data.location.tz_id;
@@ -125,7 +123,7 @@ function updateHourForecast(data) {
         hourCycle: 'h23'
     }).format(now)) + 1;
 
-    updateBackground(currentHour - 1);
+    updateBackground(currentHour - 1, data.current.condition.text);
 
     let hourlyData = [];
 
@@ -149,8 +147,14 @@ function updateHourForecast(data) {
         </div>`;
     });
 }
-function updateBackground(currentHour) {
-    if (currentHour >= 5 && currentHour < 8)
+function updateBackground(currentHour, condition) {
+    if(condition.includes("rain")){
+        if(currentHour >= 6 && currentHour < 18)
+        document.body.style.backgroundImage = "url('/home/bg/rainny.webp')";
+        else
+        document.body.style.backgroundImage = "url('/home/bg/rainny.webp')";
+    }
+    else if (currentHour >= 5 && currentHour < 8)
         document.body.style.backgroundImage = "url('/home/bg/sunrise.webp')";
     else if (currentHour >= 8 && currentHour < 16)
         document.body.style.backgroundImage = "url('/home/bg/day.webp')";
