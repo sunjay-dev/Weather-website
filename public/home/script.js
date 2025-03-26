@@ -125,7 +125,7 @@ function updateHourForecast(data) {
         hourCycle: 'h23'
     }).format(now)) + 1;
 
-    updateBackground(currentHour-1);
+    updateBackground(currentHour - 1);
 
     let hourlyData = [];
 
@@ -150,17 +150,14 @@ function updateHourForecast(data) {
     });
 }
 function updateBackground(currentHour) {
-    const body = document.body;
-    
-    if (currentHour >= 5 && currentHour < 8) {
-        body.style.backgroundImage = "url('/home/bg/sunrise.webp')";
-    } else if (currentHour >= 8 && currentHour < 16) {
-        body.style.backgroundImage = "url('/home/bg/day.webp')";
-    } else if (currentHour >= 16 && currentHour < 19) {
-        body.style.backgroundImage = "url('/home/bg/evening.webp')";
-    } else {
-        body.style.backgroundImage = "url('/home/bg/night.webp')";
-    }
+    if (currentHour >= 5 && currentHour < 8)
+        document.body.style.backgroundImage = "url('/home/bg/sunrise.webp')";
+    else if (currentHour >= 8 && currentHour < 16)
+        document.body.style.backgroundImage = "url('/home/bg/day.webp')";
+    else if (currentHour >= 16 && currentHour < 19)
+        document.body.style.backgroundImage = "url('/home/bg/evening.webp')";
+    else
+        document.body.style.backgroundImage = "url('/home/bg/night.webp')";
 }
 
 function updateCurrentWeather(data) {
