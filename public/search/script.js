@@ -42,10 +42,13 @@ function fetchWeather(name) {
     window.location.href = '/home';
 }
 
-function fetchLocation() {
+function fetchLocation(btn) {
+    btn.disabled = true;
+    setTimeout(() => btn.disabled = false, 3500);
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
+                setTimeout(()=> btn.disabled= false, 3500)
                 let lat = position.coords.latitude;
                 let lon = position.coords.longitude;
                 localStorage.setItem("userLocation", JSON.stringify({ lat, lon }));
@@ -53,8 +56,13 @@ function fetchLocation() {
                 window.location.href = '/home';
             },
             (error) => {
+                let errorMessage = "An error occurred while fetching location.";
+                if (error.code === 1) errorMessage = "Location access denied. Please allow permission.";
+                else if (error.code === 2) errorMessage = "Location unavailable.";
+                else if (error.code === 3) errorMessage = "Request timed out. Try again.";
+
                 alertDiv.classList.remove("hidden");
-                alertDiv.querySelector("p").innerHTML = "Location access denied. Please allow permission.";
+                alertDiv.querySelector("p").innerHTML = errorMessage;
                 setTimeout(() => alertDiv.classList.add("hidden"), 2000);
             },
             { timeout: 5000, maximumAge: 0 }

@@ -19,7 +19,7 @@ A simple weather web application that allows users to search for the weather of 
 
 - **Frontend:** EJS
 - **Backend:** Express + Node.js
-- **Database:** Redis (for caching real-time data)
+- **In Memory Database:** Redis (for caching real-time data)
 - **API:** Rapid API
 
 ## Installation
