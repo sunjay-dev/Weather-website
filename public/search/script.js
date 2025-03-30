@@ -82,14 +82,3 @@ document.querySelector('form').onsubmit = (e) => {
     localStorage.setItem('city', cityName);
     window.location.href = '/home';
 }
-
-let imgList = [
-    "night",
-    "sunrise",
-    "evening",
-    "rainny"
-]
-imgList.forEach(imgName => {
-    let img = new Image();
-    img.src = `/home/bg/${imgName}.webp`
-})
