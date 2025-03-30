@@ -4,18 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const splash = document.getElementById("splash-screen");
     const mainContent = document.getElementById("chooseLocationDiv");
-    
+
     let t = parseInt(localStorage.getItem("t")) || 3000;
-    
+
     setTimeout(() => {
         splash.classList.add("opacity-0", "transition-opacity", "duration-500");
     }, t);
-    
+
     setTimeout(() => {
         splash.classList.add("hidden");
         mainContent.classList.remove("hidden");
-    }, t + 500); 
-    
+    }, t + 500);
+
     localStorage.setItem("t", 1000);
 
     let cities = JSON.parse(localStorage.getItem('cities')) || [];
@@ -35,6 +35,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 </button>
             `).join('')}
         </div>`;
+
+    let imgList = [
+        "night",
+        "sunrise",
+        "evening",
+        "rainny"
+    ]
+    imgList.forEach(imgName => {
+        let img = new Image();
+        img.src = `/home/bg/${imgName}.webp`
+    })
 });
 
 function fetchWeather(name) {
@@ -48,7 +59,7 @@ function fetchLocation(btn) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                setTimeout(()=> btn.disabled= false, 3500)
+                setTimeout(() => btn.disabled = false, 3500)
                 let lat = position.coords.latitude;
                 let lon = position.coords.longitude;
                 localStorage.setItem("userLocation", JSON.stringify({ lat, lon }));
@@ -82,4 +93,3 @@ document.querySelector('form').onsubmit = (e) => {
     localStorage.setItem('city', cityName);
     window.location.href = '/home';
 }
-

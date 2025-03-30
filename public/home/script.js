@@ -60,7 +60,7 @@ function fetchWeatherUsingCityName(city) {
 }
 
 function main(data) {
-    console.log(data);
+    // console.log(data);
 
     updateDateTime(data);
     updateCurrentWeather(data);
