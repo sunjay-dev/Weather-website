@@ -148,11 +148,11 @@ function updateHourForecast(data) {
     });
 }
 function updateBackground(currentHour, condition) {
-    if(condition.includes("rain")){
-        if(currentHour >= 6 && currentHour < 18)
-        document.body.style.backgroundImage = "url('/home/bg/rainny.webp')";
+    if (condition.includes("rain")) {
+        if (currentHour >= 6 && currentHour < 18)
+            document.body.style.backgroundImage = "url('/home/bg/rainny.webp')";
         else
-        document.body.style.backgroundImage = "url('/home/bg/rainny.webp')";
+            document.body.style.backgroundImage = "url('/home/bg/rainny.webp')";
     }
     else if (currentHour >= 5 && currentHour < 8)
         document.body.style.backgroundImage = "url('/home/bg/sunrise.webp')";
@@ -162,6 +162,8 @@ function updateBackground(currentHour, condition) {
         document.body.style.backgroundImage = "url('/home/bg/evening.webp')";
     else
         document.body.style.backgroundImage = "url('/home/bg/night.webp')";
+ 
+    document.body.classList.remove("bg-[#4d9ae6]");
 }
 
 function updateCurrentWeather(data) {
